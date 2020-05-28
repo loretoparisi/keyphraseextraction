@@ -9,6 +9,7 @@ This source code has beed adpted and ported to `Python3` from the original `Pyth
 
 ## How to prepare the document
 First, you need to retrie your document or paper Title, Abstract and Text. To convert your paper to text use a pdf converter like [PDFElement](https://pdf.wondershare.com/). To copy the text into a string use [this](https://onlinetexttools.com/json-stringify-text) tool.
+We use [this](https://arxiv.org/abs/1901.04831) pre-print as example, **EXPLOITING SYNCHRONIZED LYRICS AND VOCAL FEATURES FOR MUSIC EMOTION DETECTION**
 
 ## How to extract key phrases
 As soon as you have filled the variables `title`, `abstract` and `text`, you can run the available algorithms:
