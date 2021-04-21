@@ -1,4 +1,4 @@
-# keyphrase_extraction_python
+# keyphraseextraction
 Keyphrase extraction in Python
 
 ## Updates
