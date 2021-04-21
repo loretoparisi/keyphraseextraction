@@ -3,9 +3,3 @@
 # @author Loreto Parisi (loretoparisi at gmail dot com)
 # Copyright (c) 2021 Loreto Parisi (loretoparisi at gmail dot com)
 # 
-
-import nltk
-
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')

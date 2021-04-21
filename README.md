@@ -1,28 +1,52 @@
 # keyphrase_extraction_python
 Keyphrase extraction in Python
 
-## Updated
-Added `Dockerfile` and simple module
+## Updates
+Added a `Dockerfile` and a simple module to run provided apis. :new:
 
 ## Disclaimer
 
-This source code has beed adpted and ported to `Python3` from the original `Python2` source code available here 
+The source code for class `KeyphrasesRanker` has beed adpted and ported to `Python3` from the original `Python2` source code available here: 
 
 [Intro to Automatic Keyphrase Extraction](https://bdewilde.github.io/blog/2014/09/23/intro-to-automatic-keyphrase-extraction/)
 
-## How to prepare the document
+The source code for classes `EntitiesRanker`, `TextRank4Keyword` has beed adapted from the original source code available here:
+
+[Understand TextRank for Keyword Extraction by Python](https://towardsdatascience.com/textrank-for-keyword-extraction-by-python-c0bae21bcec0)
+
+and here:
+[News Graph](https://github.com/BrambleXu/news-graph)
+
+
+## Dependencies
+To install all dependencies please run `pip install -r requirements.txt` or use the `Dockerfile` install.
+```
+numpy
+nltk
+gensim
+spacy
+networkx
+```
+
+## How to build and run Docker
+We build the provided `Dockerimage` and run the code into the container to be editable on the host.
+```
+docker build -f Dockerfile -t keyphrase_extraction_python .
+docker run -v $(pwd):/app --rm -it keyphrase_extraction_python bash
+```
+
+## How to prepare the document to analyse
 First, you need to retrie your document or paper Title, Abstract and Text. To convert your paper to text use a pdf converter like [PDFElement](https://pdf.wondershare.com/). To copy the text into a string use [this](https://onlinetexttools.com/json-stringify-text) tool.
 We use [this](https://arxiv.org/abs/1901.04831) pre-print as example, **EXPLOITING SYNCHRONIZED LYRICS AND VOCAL FEATURES FOR MUSIC EMOTION DETECTION**
 
-## How to extract key phrases
-As soon as you have filled the variables `title`, `abstract` and `text`, you can run the available algorithms:
+## How to extract and rank key phrases
+The class `KeyphrasesRanker` provides the following apis:
 
-- extract_candidate_chunks
-- extract_candidate_words
-- score_keyphrases_by_tfidf
-- score_keyphrases_by_textrank
-- extract_candidate_features
-
+- `extract_candidate_chunks`
+- `extract_candidate_words`
+- `score_keyphrases_by_tfidf`
+- `score_keyphrases_by_textrank`
+- `extract_candidate_features`
 
 
 ```python
@@ -31,9 +55,10 @@ abstract = "One of the key points in music recommendation is authoring engaging 
 text = "EXPLOITING SYNCHRONIZED LYRICS AND VOCAL FEATURES FOR \nMUSIC EMOTION DETECTION \n\nABSTRACT \nOne of the key points in music recommendation is authoring engaging playlists according to sentiment and emotions. While previous works were mostly based on audio for music discovery and playlists generation, we take advantage of our synchronized lyrics dataset to combine text representations and music features in a novel way; we therefore introduce the Synchronized Lyrics Emotion Dataset. Unlike other approaches that randomly exploited the audio samples and the whole text, our data is split according to the temporal information provided by the synchronization between lyrics and audio. This work shows a comparison between text-based and audio-based deep learning classiﬁcation models using different techniques from Natural Language Processing and Music Information Retrieval domains. From the experiments on audio we conclude that using vocals only, instead of the whole audio data improves the overall performances of the audio classiﬁer. In the lyrics experiments we exploit the state-ofthe-art word representations applied to the main Deep Learning architectures available in literature. In our benchmarks the results show how the Bilinear LSTM classiﬁer with Attention based on fastText word embedding performs better than the CNN applied on audio. \n\n1. INTRODUCTION \nMusic Emotion Recognition (MER) refers to the task of ﬁnding a relationship between music and human emotions [24,43]. Nowadays, this type of analysis is becoming more and more popular, music streaming providers are ﬁnding very helpful to present users with musical collections organized according to their feelings. The problem of Music Emotion Recognition was proposed for the ﬁrst time in the Music Information Retrieval (MIR) community in 2007, during the annual Music Information Research Evaluation eXchange (MIREX) [14]"
 ```
 
-- extract_candidate_chunks
+- `extract_candidate_chunks`
 ```python
-set(extract_candidate_chunks(text))
+ranker = KeyphrasesRanker()
+set(ranker.extract_candidate_chunks(text))
 {'100-dimensional word2vec',
  '] achieves relevant results',
  '] exploit contextual information',
@@ -47,9 +72,10 @@ set(extract_candidate_chunks(text))
 ...
 ```
 
-- extract_candidate_words
+- `extract_candidate_words`
 ```python
-set(extract_candidate_words(text))
+ranker = KeyphrasesRanker()
+set(ranker.extract_candidate_words(text))
 {'100-dimensional',
  'abstract',
  'account',
@@ -68,11 +94,12 @@ set(extract_candidate_words(text))
  ...
  ```
  
- - score_keyphrases_by_tfidf
+ - `score_keyphrases_by_tfidf`
  
  ```python
+ranker = KeyphrasesRanker()
 texts = [title, abstract, text]
-corpus, corpus_tfidf, dictionary = score_keyphrases_by_tfidf(texts, candidates='chunks')
+corpus, corpus_tfidf, dictionary = ranker.score_keyphrases_by_tfidf(texts, candidates='chunks')
 d = {dictionary.get(id): value for doc in corpus_tfidf for id, value in doc}
 print(json.dumps(d,indent=4))
 {
@@ -95,9 +122,10 @@ print(json.dumps(d,indent=4))
 ...
 ```
  
- - score_keyphrases_by_textrank
+ - `score_keyphrases_by_textrank`
 ```python
- score_keyphrases_by_textrank(text)
+ranker = KeyphrasesRanker()
+ranker.score_keyphrases_by_textrank(text)
  [('audio', 0.020772356010959545),
  ('audio features', 0.015940980040515616),
  ('music', 0.015056242947485416),
@@ -114,13 +142,14 @@ print(json.dumps(d,indent=4))
  ...
 ```
 
-- extract_candidate_features
+- `extract_candidate_features`
 ```python
-candidates = extract_candidate_words(text)
+ranker = KeyphrasesRanker()
+candidates = ranker.extract_candidate_words(text)
 candidates = candidates[0:5]
-candidate_features = extract_candidate_features(candidates, text, abstract, title)
-candidate_features = [{k[0]:k[1]} for k in sorted(candidate_features.items(), key=lambda item: item[1]['term_count'], reverse=True)]
-print(json.dumps(candidate_features,indent=4))
+candidate_features = ranker.extract_candidate_features(candidates, text, abstract, title)
+candidate_features = [{k[0]:k[1]} for k in sorted(ranker.candidate_features.items(), key=lambda item: item[1]['term_count'], reverse=True)]
+print(json.dumps(ranker.candidate_features,indent=4))
 [
     {
         "lyrics": {
@@ -164,9 +193,45 @@ print(json.dumps(candidate_features,indent=4))
 ...
 ```
 
-## How to build and run Docker
-
+## How to extract and rank keywords with POS (Part Of Speech)
+Run `textrank.py` example.
+ 
 ```
-docker build -f Dockerfile -t keyphrase_extraction_python .
-docker run --rm -it keyphrase_extraction_python bash
+python src/textrank.py 
+lyrics - 6.243945103861534
+audio - 5.414579362418893
+text - 5.254783060976986
+emotion - 4.95182499101852
+music - 4.702983828505006
+emotions - 4.5025596655266105
+classiﬁcation - 4.468243854418144
+features - 4.433893761854115
+song - 3.850250680927715
+mood - 3.272875241280236
+representations - 3.119033774085046
+word - 3.0808253588512065
+None
+```
+
+or use the class `TextRank4Keyword`:
+
+```python
+textRank = TextRank4Keyword()
+textRank.analyze(text, candidate_pos = ['NOUN', 'PROPN'], window_size=4, lower=False)
+print(textRank.get_keywords(10))
+```
+
+## How to extract and rank Entities
+Run `entities.py` example.
+```
+# python src/entities.py 
+[['United', 'keyword'], ['States', 'keyword'], ['States', 'is'], ['States', 'is place'], ['States', 'been'], ['States', 'become one'], ['United', 'frequency'], ['States', 'frequency'], ['the United States', 'Location'], ['America', 'Location'], ['George Floyd', 'Person'], ['the National Action Network', 'Organization'], ['Al Sharpton', 'Person'], ['linda thomas Greenfield', 'Person'], ['Nikki Haley', 'Person'], ['the U. N.', 'Location'], ['thomas Greenfield', 'Person'], ["Al Sharpton's", 'Person'], ['Greenfield', 'Location'], ['Klan', 'Organization'], ['Frederick douglass', 'Person'], ['Iran', 'Location'], ['Brianna', 'Person'], ['derek chauvin', 'Person'], ['Brianna Taylor', 'Person'], ['the National Action Network', "Al Sharpton's"], ['the National Action Network', 'thomas Greenfield'], ["Al Sharpton's", 'the National Action Network'], ["Al Sharpton's", 'thomas Greenfield'], ['thomas Greenfield', 'the National Action Network'], ['thomas Greenfield', "Al Sharpton's"], ['the National Action Network', 'the United States'], ['the United States', 'the National Action Network'], ['the United States', 'Iran'], ['the United States', 'America'], ['Iran', 'the United States'], ['Iran', 'America'], ['America', 'the United States'], ['America', 'Iran'], ['Brianna', 'George Floyd'], ['George Floyd', 'Brianna'], ['derek chauvin', 'George Floyd'], ['George Floyd', 'derek chauvin']]
+```
+
+or use the class `EntitiesRanker`:
+
+```python
+ranker = EntitiesRanker()
+ranks = ranker.main(text)
+print(ranks)
 ```

@@ -1,0 +1,45 @@
+
+        <html>
+        <head>
+        <script type="text/javascript" src="assets/vis.js"></script>
+        <link href="assets/vis.css" rel="stylesheet" type="text/css">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        </head>
+        <body>
+        <div id="VIS_draw"></div>
+        <script type="text/javascript">
+        var nodes = [{'group': 'Event', 'id': 12, 'label': 'United'}, {'group': 'Event', 'id': 3, 'label': 'keyword'}, {'group': 'Event', 'id': 14, 'label': 'States'}, {'group': 'Event', 'id': 5, 'label': 'is'}, {'group': 'Event', 'id': 7, 'label': 'is place'}, {'group': 'Event', 'id': 9, 'label': 'been'}, {'group': 'Event', 'id': 11, 'label': 'become one'}, {'group': 'Event', 'id': 15, 'label': 'frequency'}, {'group': 'Event', 'id': 75, 'label': 'the United States'}, {'group': 'Event', 'id': 43, 'label': 'Location'}, {'group': 'Event', 'id': 76, 'label': 'America'}, {'group': 'Event', 'id': 84, 'label': 'George Floyd'}, {'group': 'Event', 'id': 49, 'label': 'Person'}, {'group': 'Event', 'id': 64, 'label': 'the National Action Network'}, {'group': 'Event', 'id': 39, 'label': 'Organization'}, {'group': 'Event', 'id': 24, 'label': 'Al Sharpton'}, {'group': 'Event', 'id': 26, 'label': 'linda thomas Greenfield'}, {'group': 'Event', 'id': 28, 'label': 'Nikki Haley'}, {'group': 'Event', 'id': 30, 'label': 'the U. N.'}, {'group': 'Event', 'id': 59, 'label': 'thomas Greenfield'}, {'group': 'Event', 'id': 61, 'label': "Al Sharpton's"}, {'group': 'Event', 'id': 36, 'label': 'Greenfield'}, {'group': 'Event', 'id': 38, 'label': 'Klan'}, {'group': 'Event', 'id': 40, 'label': 'Frederick douglass'}, {'group': 'Event', 'id': 77, 'label': 'Iran'}, {'group': 'Event', 'id': 81, 'label': 'Brianna'}, {'group': 'Event', 'id': 85, 'label': 'derek chauvin'}, {'group': 'Event', 'id': 48, 'label': 'Brianna Taylor'}];
+        var edges = [{'from': 12, 'label': '', 'to': 3}, {'from': 14, 'label': '', 'to': 3}, {'from': 14, 'label': '', 'to': 5}, {'from': 14, 'label': '', 'to': 7}, {'from': 14, 'label': '', 'to': 9}, {'from': 14, 'label': '', 'to': 11}, {'from': 12, 'label': '', 'to': 15}, {'from': 14, 'label': '', 'to': 15}, {'from': 75, 'label': '', 'to': 43}, {'from': 76, 'label': '', 'to': 43}, {'from': 84, 'label': '', 'to': 49}, {'from': 64, 'label': '', 'to': 39}, {'from': 24, 'label': '', 'to': 49}, {'from': 26, 'label': '', 'to': 49}, {'from': 28, 'label': '', 'to': 49}, {'from': 30, 'label': '', 'to': 43}, {'from': 59, 'label': '', 'to': 49}, {'from': 61, 'label': '', 'to': 49}, {'from': 36, 'label': '', 'to': 43}, {'from': 38, 'label': '', 'to': 39}, {'from': 40, 'label': '', 'to': 49}, {'from': 77, 'label': '', 'to': 43}, {'from': 81, 'label': '', 'to': 49}, {'from': 85, 'label': '', 'to': 49}, {'from': 48, 'label': '', 'to': 49}, {'from': 59, 'label': '', 'to': 61}, {'from': 59, 'label': '', 'to': 64}, {'from': 61, 'label': '', 'to': 59}, {'from': 61, 'label': '', 'to': 64}, {'from': 64, 'label': '', 'to': 59}, {'from': 64, 'label': '', 'to': 61}, {'from': 75, 'label': '', 'to': 64}, {'from': 64, 'label': '', 'to': 75}, {'from': 75, 'label': '', 'to': 77}, {'from': 75, 'label': '', 'to': 76}, {'from': 77, 'label': '', 'to': 75}, {'from': 77, 'label': '', 'to': 76}, {'from': 76, 'label': '', 'to': 75}, {'from': 76, 'label': '', 'to': 77}, {'from': 81, 'label': '', 'to': 84}, {'from': 84, 'label': '', 'to': 81}, {'from': 85, 'label': '', 'to': 84}, {'from': 84, 'label': '', 'to': 85}];
+        var container = document.getElementById("VIS_draw");
+        var data = {
+            nodes: nodes,
+            edges: edges
+        };
+        var options = {
+            nodes: {
+                shape: 'circle',
+                size: 15,
+                font: {
+                    size: 15
+                }
+            },
+            edges: {
+                font: {
+                    size: 10,
+                    align: 'center'
+                },
+                color: 'red',
+                arrows: {
+                    to: {enabled: true, scaleFactor: 1.2}
+                },
+                smooth: {enabled: true}
+            },
+            physics: {
+                enabled: true
+            }
+        };
+        var network = new vis.Network(container, data, options);
+        </script>
+        </body>
+        </html>
+        

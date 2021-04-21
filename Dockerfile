@@ -16,4 +16,9 @@ COPY src .
 COPY requirements.txt /tmp/requirements.txt
 RUN cat /tmp/requirements.txt | xargs -n 1 -L 1 pip3 install --no-cache-dir
 
+# spacy models 
+# small model: en_core_web_sm
+# big model: en_core_web_lg (778.8MB)
+RUN python -m spacy download en_core_web_sm
+
 CMD ["bash"]
