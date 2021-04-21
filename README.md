@@ -1,5 +1,5 @@
 # keyphraseextraction
-Keyphrase extraction in Python
+Key phrases extraction and ranking in Python with support for POS (Part of Speech) and NER (Named Entities).
 
 ## Updates
 Added a `Dockerfile` and a simple module to run provided apis. :new:
