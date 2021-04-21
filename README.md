@@ -1,6 +1,9 @@
 # keyphrase_extraction_python
 Keyphrase extraction in Python
 
+## Updated
+Added `Dockerfile` and simple module
+
 ## Disclaimer
 
 This source code has beed adpted and ported to `Python3` from the original `Python2` source code available here 
@@ -159,4 +162,11 @@ print(json.dumps(candidate_features,indent=4))
         }
     },
 ...
+```
+
+## How to build and run Docker
+
+```
+docker build -f Dockerfile -t keyphrase_extraction_python .
+docker run --rm -it keyphrase_extraction_python bash
 ```
