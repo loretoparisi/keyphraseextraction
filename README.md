@@ -235,3 +235,8 @@ ranker = EntitiesRanker()
 ranks = ranker.main(text)
 print(ranks)
 ```
+
+## Contributors
+People who contributed with their libraries or code to this project.
+- [BrambleXu](https://github.com/BrambleXu)
+- [bdewilde](https://github.com/bdewilde)
